@@ -52,6 +52,34 @@ if ($link) {
                 <p class="mb-4"><?= nl2br(htmlspecialchars($template['description'])) ?></p>
                 <p class="text-xl">Redirecionando em <span id="countdown"><?= $delay ?></span> segundos...</p>
             </div>
+        <?php elseif ($template['type'] === 'drive'): ?>
+            <div class="text-center max-w-4xl w-full">
+                <h1 class="text-2xl font-bold mb-4"><?= htmlspecialchars($template['title']) ?></h1>
+                <div class="aspect-video mb-4">
+                    <iframe 
+                        src="<?= htmlspecialchars($template['drive_url']) ?>" 
+                        class="w-full h-full"
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <p class="mb-4"><?= nl2br(htmlspecialchars($template['description'])) ?></p>
+                <p class="text-xl">Redirecionando em <span id="countdown"><?= $delay ?></span> segundos...</p>
+            </div>
+        <?php elseif ($template['type'] === 'bento'): ?>
+            <div class="max-w-4xl w-full">
+                <h1 class="text-2xl font-bold mb-4 text-center"><?= htmlspecialchars($template['title']) ?></h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <?php foreach ($template['bento_cards'] as $card): ?>
+                        <div class="bg-opacity-10 bg-white backdrop-blur-sm p-6 rounded-lg border border-opacity-20 border-white">
+                            <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($card['title']) ?></h3>
+                            <p><?= nl2br(htmlspecialchars($card['description'])) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <p class="text-xl text-center">Redirecionando em <span id="countdown"><?= $delay ?></span> segundos...</p>
+                <div class="animate-spin h-8 w-8 border-4 rounded-full border-t-transparent mx-auto mt-4"></div>
+            </div>
         <?php endif; ?>
     <?php else: ?>
         <div class="text-center">

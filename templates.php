@@ -15,9 +15,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'title' => $_POST['title'],
         'description' => $_POST['description'],
         'youtube_url' => $_POST['youtube_url'] ?? null,
+        'drive_url' => $_POST['drive_url'] ?? null,
         'background_color' => $_POST['background_color'] ?? '#121212',
-        'text_color' => $_POST['text_color'] ?? '#ffffff'
+        'text_color' => $_POST['text_color'] ?? '#ffffff',
+        'bento_cards' => []
     ];
+
+    if ($_POST['type'] === 'bento') {
+        for ($i = 1; $i <= 4; $i++) {
+            if (!empty($_POST["bento_title_$i"])) {
+                $content['bento_cards'][] = [
+                    'title' => $_POST["bento_title_$i"],
+                    'description' => $_POST["bento_desc_$i"]
+                ];
+            }
+        }
+    }
 
     $stmt = $pdo->prepare("INSERT INTO waiting_templates (user_id, name, content) VALUES (?, ?, ?)");
     $stmt->execute([$_SESSION['user_id'], $name, json_encode($content)]);
@@ -79,6 +92,8 @@ $templates = $stmt->fetchAll();
                         <select name="type" class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
                             <option value="simple">Simples</option>
                             <option value="youtube">YouTube</option>
+                            <option value="drive">Google Drive</option>
+                            <option value="bento">Bento Grid</option>
                         </select>
                     </div>
                 </div>
@@ -99,6 +114,48 @@ $templates = $stmt->fetchAll();
                     <label class="block text-sm font-medium mb-2">URL do YouTube</label>
                     <input type="url" name="youtube_url" 
                            class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
+                </div>
+
+                <div class="drive-fields hidden">
+                    <label class="block text-sm font-medium mb-2">URL do Google Drive</label>
+                    <input type="url" name="drive_url" 
+                           placeholder="https://drive.google.com/file/d/..."
+                           class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
+                </div>
+
+                <div class="bento-fields hidden">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Card 1 - Título</label>
+                            <input type="text" name="bento_title_1" 
+                                   class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
+                            <textarea name="bento_desc_1" rows="2" placeholder="Descrição"
+                                      class="mt-2 w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Card 2 - Título</label>
+                            <input type="text" name="bento_title_2" 
+                                   class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
+                            <textarea name="bento_desc_2" rows="2" placeholder="Descrição"
+                                      class="mt-2 w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Card 3 - Título</label>
+                            <input type="text" name="bento_title_3" 
+                                   class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
+                            <textarea name="bento_desc_3" rows="2" placeholder="Descrição"
+                                      class="mt-2 w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Card 4 - Título</label>
+                            <input type="text" name="bento_title_4" 
+                                   class="w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200">
+                            <textarea name="bento_desc_4" rows="2" placeholder="Descrição"
+                                      class="mt-2 w-full bg-dark-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border border-gray-700 text-gray-200"></textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -151,9 +208,13 @@ $templates = $stmt->fetchAll();
         // Mostrar/esconder campos do YouTube
         const typeSelect = document.querySelector('select[name="type"]');
         const youtubeFields = document.querySelector('.youtube-fields');
+        const driveFields = document.querySelector('.drive-fields');
+        const bentoFields = document.querySelector('.bento-fields');
 
         typeSelect.addEventListener('change', () => {
             youtubeFields.classList.toggle('hidden', typeSelect.value !== 'youtube');
+            driveFields.classList.toggle('hidden', typeSelect.value !== 'drive');
+            bentoFields.classList.toggle('hidden', typeSelect.value !== 'bento');
         });
 
         // Função de preview
