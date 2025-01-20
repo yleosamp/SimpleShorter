@@ -58,11 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1 class="text-3xl font-bold text-gray-100">ENVLD Shortener</h1>
             <div class="flex items-center gap-4">
                 <span class="text-gray-400">Olá, <?= htmlspecialchars($_SESSION['email']) ?></span>
-                <a href="logout.php" class="bg-dark-700 hover:bg-dark-800 px-4 py-2 rounded border border-gray-700">
-                    Sair
-                </a>
                 <a href="templates.php" class="bg-dark-700 hover:bg-dark-800 px-4 py-2 rounded border border-gray-700 mr-2">
                     ✨ Templates
+                </a>
+                <a href="logout.php" class="bg-dark-700 hover:bg-dark-800 px-4 py-2 rounded border border-gray-700">
+                    Sair
                 </a>
             </div>
         </div>
@@ -124,14 +124,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="flex items-start gap-2">
                                     <span class="text-gray-400">Original:</span>
                                     <a href="<?= htmlspecialchars($link['original_url']) ?>" target="_blank" 
-                                       class="text-blue-400 hover:text-blue-300 break-all">
+                                       class="text-gray-400 hover:text-blue-300 break-all">
                                         <?= htmlspecialchars($link['original_url']) ?>
                                     </a>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-gray-400">Encurtado:</span>
                                     <a href="<?= $base_url . $link['short_url'] ?>" target="_blank" 
-                                       class="text-green-400 hover:text-green-300">
+                                       class="text-purple-400 hover:text-green-300">
                                         <?= $base_url . $link['short_url'] ?>
                                     </a>
                                 </div>
@@ -139,11 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="text-sm text-gray-400">
                                         Delay: <?= $link['delay'] ?>s • Cliques: <?= $link['clicks'] ?>
                                     </div>
-                                    <a href="delete_link.php?id=<?= $link['id'] ?>" 
-                                       onclick="return confirm('Tem certeza que deseja excluir este link?')"
-                                       class="bg-dark-700 hover:bg-dark-800 px-3 py-1 rounded text-sm border border-gray-700 text-red-400 hover:text-red-300">
-                                        Excluir
-                                    </a>
                                 </div>
                                 
                                 <form method="POST" action="update_template.php" class="mt-2">
@@ -165,6 +160,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 class="bg-dark-700 hover:bg-dark-800 px-3 py-1 rounded text-sm border border-gray-700">
                                             Atualizar Template
                                         </button>
+                                        <a href="delete_link.php?id=<?= $link['id'] ?>" 
+                                        onclick="return confirm('Tem certeza que deseja excluir este link?')"
+                                        class="bg-dark-700 hover:bg-dark-800 px-3 py-1 rounded text-sm border border-gray-700 text-red-400 hover:text-red-300">
+                                            Excluir
+                                        </a>
                                     </div>
                                 </form>
                             </div>
