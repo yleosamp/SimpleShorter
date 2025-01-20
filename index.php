@@ -2,7 +2,7 @@
 session_start();
 require_once 'config.php';
 
-$base_url = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/";
+$base_url = "https://" . $_SERVER['HTTP_HOST'] . "/";
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
