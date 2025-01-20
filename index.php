@@ -58,6 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="logout.php" class="bg-dark-700 hover:bg-dark-800 px-4 py-2 rounded border border-gray-700">
                     Sair
                 </a>
+                <a href="templates.php" class="bg-dark-700 hover:bg-dark-800 px-4 py-2 rounded border border-gray-700 mr-2">
+                    ✨ Templates
+                </a>
             </div>
         </div>
         

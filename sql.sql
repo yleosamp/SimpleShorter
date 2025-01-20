@@ -18,3 +18,18 @@ CREATE TABLE users (
 ALTER TABLE links ADD COLUMN user_id INT;
 ALTER TABLE links ADD COLUMN clicks INT DEFAULT 0;
 ALTER TABLE links ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+-- MODIFICACAO DE TELA DE ESPERA
+
+CREATE TABLE waiting_templates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    content JSON NOT NULL,
+    is_preset BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+ALTER TABLE links ADD COLUMN template_id INT;
+ALTER TABLE links ADD FOREIGN KEY (template_id) REFERENCES waiting_templates(id);
