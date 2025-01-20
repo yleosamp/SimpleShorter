@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </head>
 <body class="bg-dark-900 text-gray-200 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-gray-100">ENVLD Shortener</h1>
             <div class="flex items-center gap-4">
@@ -135,8 +135,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?= $base_url . $link['short_url'] ?>
                                     </a>
                                 </div>
-                                <div class="text-sm text-gray-400">
-                                    Delay: <?= $link['delay'] ?>s • Cliques: <?= $link['clicks'] ?>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm text-gray-400">
+                                        Delay: <?= $link['delay'] ?>s • Cliques: <?= $link['clicks'] ?>
+                                    </div>
+                                    <a href="delete_link.php?id=<?= $link['id'] ?>" 
+                                       onclick="return confirm('Tem certeza que deseja excluir este link?')"
+                                       class="bg-dark-700 hover:bg-dark-800 px-3 py-1 rounded text-sm border border-gray-700 text-red-400 hover:text-red-300">
+                                        Excluir
+                                    </a>
                                 </div>
                                 
                                 <form method="POST" action="update_template.php" class="mt-2">
@@ -168,5 +175,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <?php endif; ?>
     </div>
+
+    <script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Link copiado! 📋');
+        }).catch(() => {
+            alert('Erro ao copiar link 😢');
+        });
+    }
+    </script>
 </body>
 </html> 
